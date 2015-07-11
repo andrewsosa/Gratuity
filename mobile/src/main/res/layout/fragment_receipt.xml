@@ -1,0 +1,13 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="com.andrewsosa.gratuity.ReceiptFragment"
+    android:background="@color/grey_50"
+    android:elevation="4dp">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/content" />
+</FrameLayout>
