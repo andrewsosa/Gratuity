@@ -99,7 +99,7 @@ public class ReceiptFragment extends Fragment {
 
         DecimalFormat form = new DecimalFormat("0.00");
         amountText.setText(form.format(amount));
-        gratuityText.setText(form.format(gratuity * amount));
+        gratuityText.setText(form.format(gratuity));
         totalText.setText(form.format(total));
 
         if(party > 1) {

@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private float amount;
     private float gratuity;
+    private float gratuityValue;
     private int partySize;
     private boolean display;
 
@@ -122,11 +123,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(createDisplay || this.display) {
             this.display = true;
 
-            Float f = amount + (amount * gratuity);
+            //Float total = amount + (amount * gratuity);
+            Float total = amount + gratuityValue;
 
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.setCustomAnimations(R.animator.slide_in_bottom, R.animator.slide_out_bottom);
-            ReceiptFragment newFragment = ReceiptFragment.newInstance(amount, gratuity, f, partySize + 1);
+            ReceiptFragment newFragment = ReceiptFragment.newInstance(amount, gratuityValue, total, partySize + 1);
             ft.replace(R.id.container, newFragment, "detailFragment");
 
             // Start the animated transition.
@@ -191,13 +193,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                         //gratuity = (float) (amount * d[which]);
                         gratuity = (float) d[which];
+                        gratuityValue = gratuity * amount;
 
                         updateFragment(false);
                     }
                 })
                 .negativeText(R.string.cancel)
                 .negativeColorRes(R.color.primary)
+                .neutralText("Custom Tip")
+                .negativeColorRes(R.color.primary)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onNeutral(MaterialDialog dialog) {
+                        customTipDialog();
+                    }
+                })
                 .show();
+    }
+
+    private void customTipDialog() {
+        new MaterialDialog.Builder(this)
+                .title(R.string.custom_tip_title)
+                .positiveColorRes(R.color.primary)
+                .negativeText(R.string.cancel)
+                .negativeColorRes(R.color.primary)
+                .widgetColorRes(R.color.primary)
+                .inputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL)
+                .input(R.string.input_hint, R.string.input_prefill, new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(MaterialDialog dialog, CharSequence input) {
+
+                        try {
+
+                            gratuityValue = Float.parseFloat(input.toString());
+                            updateFragment(false);
+
+                        } catch (Exception e) {
+                            Log.e("inputDialog", e.getMessage());
+                        }
+                    }
+                }).show();
     }
 
 
