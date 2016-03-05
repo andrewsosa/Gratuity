@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private float amount;
     private float gratuity;
     private float gratuityValue;
+    private boolean customGratuity = true;
     private int partySize;
     private boolean display;
 
@@ -158,6 +159,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             value = df.format(f);
                             setAmount(Float.parseFloat(value));
 
+                            if(!customGratuity) {
+                                gratuityValue = gratuity * amount;
+                            }
+
                             updateFragment(true);
 
                         } catch (Exception e) {
@@ -192,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                         //gratuity = (float) (amount * d[which]);
+                        customGratuity = false;
                         gratuity = (float) d[which];
                         gratuityValue = gratuity * amount;
 
@@ -224,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onInput(MaterialDialog dialog, CharSequence input) {
 
                         try {
-
+                            customGratuity = true;
                             gratuityValue = Float.parseFloat(input.toString());
                             updateFragment(false);
 
@@ -265,7 +271,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 String ways = (progress > 0) ? " ways." : " way.";
-                personDisplay.setText("Split " + (progress + 1) + ways);
+                String out = "Split " + (progress + 1) + ways;
+                personDisplay.setText(out);
             }
 
             @Override
