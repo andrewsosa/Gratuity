@@ -1,4 +1,0 @@
-INDEX VERSION 1.126+/Users/andrewsosa/Documents/Android/.metadata/.plugins/org.eclipse.jdt.core
-2042627449.index
-2447381467.index
-2242328101.index
